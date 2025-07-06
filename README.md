@@ -1,4 +1,4 @@
-##🧠 MiniGPT — A Tiny Transformer-based Language Model Built from Scratch##
+# 🧠 MiniGPT — A Tiny Transformer-based Language Model Built from Scratch##
 
 MiniGPT is a simplified implementation of a GPT-style Transformer language model designed for educational purposes. It demonstrates how large language models like GPT-2 work under the hood, without the complexity of production-scale models.
 
