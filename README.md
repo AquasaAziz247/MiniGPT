@@ -1,63 +1,49 @@
-# 🧠 MiniGPT — A Tiny Transformer-based Language Model Built from Scratch##
+# 🧠 MiniGPT — A Tiny Transformer-based Language Model Built from Scratch
 
-MiniGPT is a simplified implementation of a GPT-style Transformer language model designed for educational purposes. It demonstrates how large language models like GPT-2 work under the hood, without the complexity of production-scale models.
+MiniGPT is a lightweight and educational implementation of a GPT-style Transformer language model, built entirely from scratch. It demonstrates how modern LLMs (Large Language Models) like GPT-2 work at the architectural and code level.
 
-⚙️ Built using only essential deep learning tools (e.g., PyTorch or NumPy) to focus on concepts, architecture, and logic rather than high-level libraries.
+> This project is perfect for students, educators, and developers who want to **learn and experiment** with how LLMs function internally.
 
-✨ Features
-✅ Implements tokenization, embedding, multi-head self-attention, and transformer blocks
+---
 
-✅ Supports causal (autoregressive) text generation
+## ✨ Features
 
-✅ Clean, minimal codebase with well-structured files
+- ✅ Pure Transformer architecture with:
+  - Multi-head self-attention
+  - Positional embeddings
+  - Layer normalization & residuals
+- ✅ Custom tokenizer
+- ✅ Causal (left-to-right) text generation
+- ✅ Modular and readable codebase
+- ✅ Easy to train and extend for small datasets
 
-✅ Ideal for learning LLM internals and experimenting with GPT architecture
+---
 
-🛠️ Future-ready for integration with vector stores, APIs, or LangChain
+## 📌 Use Cases
 
-📌 Use Cases (Educational)
-Learn how GPT models process and generate text
+- 🔍 Learn how GPT models are built and trained
+- 🧪 Experiment with prompt generation
+- 📚 Educational resource for NLP/AI courses
+- 🛠️ Base for adding:
+  - Fine-tuning
+  - RAG pipelines
+  - Prompt engineering techniques
+  - API & tool integrations
 
-Use as a base for experimenting with:
+---
 
-Prompt engineering
+## 🧱 Architecture Overview
 
-Fine-tuning on small datasets
-
-Building custom RAG or agent pipelines
-
-🧱 Architecture Overview
-plaintext
-Copy
-Edit
-Input Text → Tokenizer → Embeddings → Transformer Blocks (Multi-head Attention + FFN + LN) → Output Tokens
+```plaintext
+Input Text → Tokenizer → Embedding → [Transformer Block x N] → Linear Head → Output Tokens
 Each Transformer Block includes:
 
-Layer Normalization
+Multi-head causal self-attention
 
-Multi-head Causal Self-Attention
+Feed-forward network (FFN)
 
-Feed-Forward Network
+LayerNorm + residual connections
 
-Residual Connections
-
-🧪 Examples
-python
-Copy
-Edit
-from minigpt.model import MiniGPT
-
-model = MiniGPT.load("checkpoints/minigpt.pt")
-
-prompt = "The future of AI is"
-output = model.generate(prompt, max_tokens=20)
-print(output)
-Output (example):
-
-csharp
-Copy
-Edit
-The future of AI is full of possibilities and challenges, where humans and machines...
 📁 Project Structure
 bash
 Copy
@@ -65,13 +51,13 @@ Edit
 MiniGPT/
 │
 ├── minigpt/
-│   ├── model.py          # Transformer architecture
-│   ├── tokenizer.py      # Tokenization logic
-│   ├── config.py         # Model configuration
+│   ├── model.py          # Core Transformer model
+│   ├── tokenizer.py      # Simple tokenizer implementation
+│   ├── config.py         # Hyperparameters and model config
 │   └── utils.py          # Helper functions
 │
-├── train.py              # Training loop
-├── generate.py           # Inference script
+├── train.py              # Script for training on sample data
+├── generate.py           # Script for generating text from prompt
 ├── requirements.txt
 └── README.md
 🚀 Getting Started
@@ -86,7 +72,7 @@ bash
 Copy
 Edit
 pip install -r requirements.txt
-3. Run Training
+3. Train the Model
 bash
 Copy
 Edit
@@ -96,38 +82,55 @@ bash
 Copy
 Edit
 python generate.py --prompt "Once upon a time"
+🧪 Sample Inference
+python
+Copy
+Edit
+from minigpt.model import MiniGPT
+
+model = MiniGPT.load("checkpoints/minigpt.pt")
+output = model.generate("The future of AI is", max_tokens=20)
+print(output)
+Sample Output:
+
+pgsql
+Copy
+Edit
+The future of AI is bright, full of possibilities and innovations that redefine humanity.
 📊 Future Roadmap
- Add tokenizer training from scratch
+ Add support for more tokenization techniques
 
- Support for custom datasets (e.g., TinyStories, Wikipedia)
+ Train on a real dataset (e.g., TinyStories or WikiText)
 
- RAG (Retrieval-Augmented Generation) pipeline integration
+ Add text generation UI with Gradio
 
- Evaluation metrics (BLEU, ROUGE)
+ Integrate with vector stores for RAG
 
- Gradio/Streamlit interface
+ Deploy to Hugging Face Spaces
 
- Hugging Face model card & deployment
+ Add BLEU/ROUGE/NLL evaluation
 
 🤝 Contributing
-Contributions are welcome! If you’d like to:
+Contributions are welcome! Please open an issue or pull request if you'd like to:
 
-Add features
+Improve the architecture
 
-Improve the model
+Add a feature (like UI, RAG, tool integration)
 
-Integrate real-world LLM use cases (agents, tools, etc.)
+Fix bugs
 
-Please open an issue or pull request.
+Improve documentation
 
 📜 License
 This project is licensed under the MIT License.
 
 🙌 Acknowledgements
-Inspired by GPT-2 paper
+GPT-2 Paper
 
-Educational references from Karpathy's minGPT and The Annotated Transformer
+minGPT by Karpathy
 
-⭐️ Star the Repo
-If this helped you learn, consider giving it a ⭐️ to support the project!
+The Annotated Transformer
+
+
+
 
