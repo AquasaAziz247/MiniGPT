@@ -1,135 +1,108 @@
-# 🧠 MiniGPT — A Tiny Transformer-based Language Model Built from Scratch
+# 🤖 MiniGPT  
 
-MiniGPT is a lightweight and educational implementation of a GPT-style Transformer language model, built entirely from scratch. It demonstrates how modern LLMs (Large Language Models) like GPT-2 work at the architectural and code level.
+The simplest, cleanest repository for **building and training a GPT model from scratch** ✨  
+This project is my hands-on practice to understand **Transformer architecture**, **tokenization**, **training loops**, and **text generation**, inspired by nanoGPT but implemented with my own learning journey in mind.  
 
-> This project is perfect for students, educators, and developers who want to **learn and experiment** with how LLMs function internally.
-
----
-
-## ✨ Features
-
-- ✅ Pure Transformer architecture with:
-  - Multi-head self-attention
-  - Positional embeddings
-  - Layer normalization & residuals
-- ✅ Custom tokenizer
-- ✅ Causal (left-to-right) text generation
-- ✅ Modular and readable codebase
-- ✅ Easy to train and extend for small datasets
+The goal: make GPT **approachable, hackable, and fully customizable** for small- to medium-scale experiments on a single GPU or CPU ⚡  
+The code is minimal, readable, and beginner-friendly — with `train.py` as the ~300-line training loop and `model.py` as the ~300-line Transformer definition 🛠️  
 
 ---
 
-## 📌 Use Cases
-
-- 🔍 Learn how GPT models are built and trained
-- 🧪 Experiment with prompt generation
-- 📚 Educational resource for NLP/AI courses
-- 🛠️ Base for adding:
-  - Fine-tuning
-  - RAG pipelines
-  - Prompt engineering techniques
-  - API & tool integrations
+## 📌 Highlights
+- 🏗️ **From scratch** implementation of a GPT-like Transformer model  
+- 🔤 **Character-level & token-level training** support  
+- 📂 **Easy dataset preparation** (Tiny Shakespeare, custom text)  
+- ⚙️ **Configurable hyperparameters** for scaling up/down  
+- ✍️ **Sampling script** for text generation from checkpoints  
+- 🧩 Modular, clean, and **hacker-friendly** code  
 
 ---
 
-## 🧱 Architecture Overview
+## 📦 Installation  
 
-```plaintext
-Input Text → Tokenizer → Embedding → [Transformer Block x N] → Linear Head → Output Tokens
-Each Transformer Block includes:
+```bash
+pip install torch numpy transformers datasets tqdm
+```
+Dependencies 📜
 
-Multi-head causal self-attention
+🐍 pytorch ❤️
+➕ numpy ❤️
+🤗 transformers (HuggingFace GPT-2 tools) ❤️
+📊 datasets (HuggingFace dataset utilities) ❤️
+⏳ tqdm (progress bars) ❤️
 
-Feed-forward network (FFN)
+🚀 Quick Start
+1️⃣ Prepare your dataset
+📜 Train a character-level GPT on Shakespeare:
 
-LayerNorm + residual connections
+```bash
+python data/shakespeare_char/prepare.py
+```
+Generates: train.bin & val.bin 📦
 
-📁 Project Structure
-bash
-Copy
-Edit
-MiniGPT/
-│
-├── minigpt/
-│   ├── model.py          # Core Transformer model
-│   ├── tokenizer.py      # Simple tokenizer implementation
-│   ├── config.py         # Hyperparameters and model config
-│   └── utils.py          # Helper functions
-│
-├── train.py              # Script for training on sample data
-├── generate.py           # Script for generating text from prompt
-├── requirements.txt
-└── README.md
-🚀 Getting Started
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/AquasaAziz247/MiniGPT.git
-cd MiniGPT
-2. Install Dependencies
-bash
-Copy
-Edit
-pip install -r requirements.txt
-3. Train the Model
-bash
-Copy
-Edit
-python train.py --config configs/train_config.yaml
-4. Generate Text
-bash
-Copy
-Edit
-python generate.py --prompt "Once upon a time"
-🧪 Sample Inference
-python
-Copy
-Edit
-from minigpt.model import MiniGPT
+2️⃣ Train a small GPT
+💻 On GPU:
 
-model = MiniGPT.load("checkpoints/minigpt.pt")
-output = model.generate("The future of AI is", max_tokens=20)
-print(output)
-Sample Output:
+```bash
+python train.py config/train_shakespeare_char.py
+```
+📏 Context: 256
+📐 Embedding: 384
+🧠 6 Layers × 6 Heads
+⏱️ ~3 minutes on A100 GPU
 
-pgsql
-Copy
-Edit
-The future of AI is bright, full of possibilities and innovations that redefine humanity.
-📊 Future Roadmap
- Add support for more tokenization techniques
+🖥️ On CPU:
+```bash
+python train.py config/train_shakespeare_char.py \
+    --device=cpu --compile=False --block_size=64 \
+    --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 \
+    --max_iters=2000 --dropout=0.0
+```
+Runs in ~3–5 minutes 🕒
 
- Train on a real dataset (e.g., TinyStories or WikiText)
+3️⃣ Generate text
+```bash
+python sample.py --out_dir=out-shakespeare-char
+```
+📜 Example:
+```
+vbnet
+```
+DUKE:
+I thank your eyes against it.
 
- Add text generation UI with Gradio
+ANGELO:
+And cowards it be strawn to my bed.
+🏋️‍♂️ Reproducing GPT-2 Scale (Optional)
+Train on OpenWebText:
 
- Integrate with vector stores for RAG
+```bash
+python data/openwebtext/prepare.py
+torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
+```
+🔧 Finetuning
+```bash
+python train.py config/finetune_shakespeare.py
+```
+✅ Loads GPT-2 weights → trains with small LR → adapts to new data
+🧪 Sampling from Pretrained Models
+```bash
+python sample.py \
+    --init_from=gpt2-xl \
+    --start="The meaning of life is" \
+    --num_samples=5 --max_new_tokens=100
+```
+⚡ Efficiency Tips
+🚀 Use torch.compile() (PyTorch 2.0) for faster training
+🍏 On Apple Silicon: --device=mps for GPU acceleration
 
- Deploy to Hugging Face Spaces
+📅 To-Do List
+ 🔄 Rotary Embeddings & Flash Attention
+ 🧮 Mixed-Precision Training (fp16/bf16)
+ 🖥️ FSDP for large model scaling
+ 🌐 Web-based text generation UI
 
- Add BLEU/ROUGE/NLL evaluation
 
-🤝 Contributing
-Contributions are welcome! Please open an issue or pull request if you'd like to:
-
-Improve the architecture
-
-Add a feature (like UI, RAG, tool integration)
-
-Fix bugs
-
-Improve documentation
-
-📜 License
-This project is licensed under the MIT License.
-
-🙌 Acknowledgements
-GPT-2 Paper
-
-minGPT by Karpathy
-
-The Annotated Transformer
 
 
 
